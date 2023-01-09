@@ -44,7 +44,7 @@ update | install)
     fi
 
     # clone repo into tmp folder
-    git clone "$SFL_REPOURL" --branch master --single-branch "/tmp/$SFL_REPONAME"
+    git clone "$SFL_REPOURL" --branch main --single-branch "/tmp/$SFL_REPONAME"
 
     # install commands from repo
     for cmd in "/tmp/$SFL_REPONAME/bin/"*; do
