@@ -1,5 +1,11 @@
 #!/bin/bash
-set -e
+set -euxo pipefail
+
+# colors
+yellow="\033[33m"
+green="\033[32m"
+normal="\033[0m"
+bold="\033[1m"
 
 # default vars
 SFL_INSTPATH="$HOME/bin"
@@ -21,7 +27,7 @@ case "$1" in
 
 uninstall)
     rm -vf "$INSTPATH/{git-feature,git-hotfix,git-release,slimflow}"
-    echo "slimflow uninstalled"
+    echo -e "${yellow}slimflow uninstalled${normal}"
     ;;
 
 update | install)
@@ -37,7 +43,7 @@ update | install)
     git config --global slimflow.ticketurl "$SFL_TICKETURL"
     git config --global slimflow.ticket "$SFL_TICKETPATTERN"
 
-    echo "Set git config defaults"
+    echo -e "${yellow}Set git config defaults${normal}"
 
     # clone repository in tmp folder
     # make sure tmp repo does not exist
