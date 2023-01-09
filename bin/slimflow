@@ -29,6 +29,7 @@ uninstall)
     ;;
 
 update | install)
+    echo -e "${yellow}Set git config defaults${normal}"
     # set defaults in git config
     git config --global slimflow.main "$SLF_MAIN"
     git config --global slimflow.featuremerge "$SFL_FTMERGE"
@@ -41,7 +42,7 @@ update | install)
     git config --global slimflow.ticketurl "$SFL_TICKETURL"
     git config --global slimflow.ticket "$SFL_TICKETPATTERN"
 
-    echo -e "${yellow}Set git config defaults${normal}"
+    echo -e "${yellow}Clone repository${normal}"
 
     # clone repository in tmp folder
     # make sure tmp repo does not exist
@@ -52,13 +53,13 @@ update | install)
     # clone repo into tmp folder
     git clone "$SFL_REPOURL" --branch main --single-branch "/tmp/$SFL_REPONAME"
 
+    echo -e "${yellow}Install commands${normal}"
+
     # install commands from repo
     for cmd in "/tmp/$SFL_REPONAME/bin/"*; do
         install -v -m 0644 "$cmd" "$SFL_INSTPATH"
         chmod +x "$SFL_INSTPATH/$(basename "$cmd")"
     done
-
-    echo -e "${yellow}Installed commands${normal}"
 
     # determine if git completion exists
     # installed via zsh

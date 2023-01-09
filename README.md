@@ -17,7 +17,7 @@ but strongly enforces some rules which are:
 
 ```bash
 # install
-curl -sL https://raw.githubusercontent.com/LeaveAirykson/git-slimflow/main/bin/slimflow | bash -s install
+curl https://raw.githubusercontent.com/LeaveAirykson/git-slimflow/main/bin/slimflow | bash -s install
 
 # to update slimflow run
 slimflow update
