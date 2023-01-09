@@ -4,6 +4,7 @@ set -euo pipefail
 # colors
 yellow="\033[33m"
 normal="\033[0m"
+green="\033[32m"
 
 # default vars
 SFL_INSTPATH="$HOME/bin"
@@ -25,7 +26,7 @@ case "$1" in
 
 uninstall)
     rm -vf "$INSTPATH/{git-feature,git-hotfix,git-release,slimflow}"
-    echo -e "${yellow}slimflow uninstalled${normal}"
+    echo -e "${green}slimflow uninstalled${normal}"
     ;;
 
 update | install)
@@ -81,7 +82,7 @@ update | install)
     # remove tmp repo
     rm -rf "/tmp/$SFL_REPONAME"
 
-    echo -e "${yellow}Installation done${normal}"
+    echo -e "${green}Installation done${normal}"
 
     ;;
 
