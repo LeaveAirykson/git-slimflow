@@ -13,6 +13,20 @@ but strongly enforces some rules which are:
 - Use semantic versioning for releases and creates
   release tags prefixed with `v` (fe: `v.1.0.0`).
 
+# Install/Uninstall
+
+```bash
+# install
+curl -sL https://raw.githubusercontent.com/LeaveAirykson/git-slimflow/main/bin/slimflow | bash -s install
+
+# to update slimflow run
+slimflow update
+
+# uninstall
+slimflow uninstall
+
+```
+
 # Features
 
 Feature branches can be short or long lived branches used to work on
