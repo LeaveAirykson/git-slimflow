@@ -1,0 +1,81 @@
+#!/bin/bash
+# default vars
+SFL_INSTPATH="$HOME/bin"
+SFL_REPONAME="git-slimflow"
+SFL_REPOURL="https://github.com/LeaveAirykson/$SFL_REPONAME"
+SLF_MAIN=$(git config --get slimflow.main || echo "main")
+SFL_FTMERGE=$(git config --get slimflow.featuremerge || echo "--squash")
+SFL_HFMERGE=$(git config --get slimflow.hotfixmerge || echo "--squash")
+SFL_RLMERGE=$(git config --get slimflow.releasemerge || echo "--squash")
+SFL_CREATECHLG=$(git config --get slimflow.createchangelog || echo "off")
+SFL_INCLUDEMISC=$(git config --get slimflow.includemisc || echo "off")
+SFL_COMPAREURL=$(git config --get slimflow.compareurl)
+SFL_COMMITURL=$(git config --get slimflow.commiturl)
+SFL_TICKETURL=$(git config --get slimflow.ticketurl)
+SFL_TICKETPATTERN=$(git config --get slimflow.ticket)
+SFL_GITCOMPLPATH=0
+
+case "$1" in
+
+uninstall)
+    rm -vf "$INSTPATH/{git-feature,git-hotfix,git-release,slimflow}"
+    echo "slimflow uninstalled"
+    ;;
+
+update | install)
+    # set defaults in git config
+    git config --global slimflow.main "$SLF_MAIN"
+    git config --global slimflow.featuremerge "$SFL_FTMERGE"
+    git config --global slimflow.releasemerge "$SFL_RLMERGE"
+    git config --global slimflow.hotfixmerge "$SFL_HFMERGE"
+    git config --global slimflow.createchangelog "$SFL_CREATECHLG"
+    git config --global slimflow.includemisc "$SFL_INCLUDEMISC"
+    git config --global slimflow.compareurl "$SFL_COMPAREURL"
+    git config --global slimflow.commiturl "$SFL_COMMITURL"
+    git config --global slimflow.ticketurl "$SFL_TICKETURL"
+    git config --global slimflow.ticket "$SFL_TICKETPATTERN"
+
+    echo "Set git config defaults"
+
+    # clone repository in tmp folder
+    # make sure tmp repo does not exist
+    if [ -d "/tmp/$SFL_REPONAME" ]; then
+        rm -rf "/tmp/$SFL_REPONAME"
+    fi
+
+    # clone repo into tmp folder
+    git clone "$SFL_REPOURL" --branch master --single-branch "/tmp/$SFL_REPONAME"
+
+    # install commands from repo
+    for cmd in "/tmp/$SFL_REPONAME/bin/"*; do
+        install -v -m 0644 "$cmd" "$SFL_INSTPATH"
+        chmod +x "$SFL_INSTPATH/$(basename "$cmd")"
+    done
+
+    echo "Installed commands"
+
+    # determine if git completion exists
+    # installed via zsh
+    if [ -f ~/.oh-my-zsh/plugins/gitfast/git-completion.bash ]; then
+        SFL_GITCOMPLPATH=1
+    fi
+
+    # installed manually
+    if [ -f ~/.git-completion.bash ]; then
+        SFL_GITCOMPLPATH=1
+    fi
+
+    # install bash completion
+    if [ -d "/etc/bash_completion.d" ] && ! [[ $SFL_GITCOMPLPATH == 0 ]]; then
+        sudo cp /tmp/$SFL_REPONAME/slimflow_completion /etc/bash_completion.d/slimflow_completion
+        echo "Installed bash completion (terminal restart required)"
+    fi
+
+    # remove tmp repo
+    rm -rf "/tmp/$SFL_REPONAME"
+
+    echo "Installation done"
+
+    ;;
+
+esac

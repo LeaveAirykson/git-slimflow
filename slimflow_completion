@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# include git-completion from home dir if exists
+if [ -f ~/git-completion.bash ]; then
+    source ~/git-completion.bash
+fi
+
+# include git-completion from oh-my-zsh if exists
+if [ -f ~/.oh-my-zsh/plugins/gitfast/git-completion.bash ]; then
+    source ~/.oh-my-zsh/plugins/gitfast/git-completion.bash
+fi
+
+_git_feature() {
+    __gitcomp_nl "$(__git_refs)"
+}

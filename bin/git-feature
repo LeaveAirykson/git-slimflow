@@ -1,0 +1,36 @@
+#!/bin/bash
+# shellcheck disable=SC2063,SC2129,SC2181,SC2162
+# Usage:
+# git feature create|c [name]
+# git feature finish|f [name]
+# git feature publish|p [name]
+
+# set strict error handling
+set -e
+
+# Set default subcommand
+SFL_CMD=${1:-create}
+
+# assume second parameter is feature name
+SFL_NAME="$2"
+
+# check for dirty working directory
+SFL_DIRTY=$(git status --porcelain)
+
+# make sure the aliases trigger the right
+# subcommand
+case "$SFL_CMD" in
+c | create)
+    SFL_CMD='create'
+    ;;
+p | publish)
+    SFL_CMD='publish'
+    ;;
+f | finish)
+    SFL_CMD='finish'
+    ;;
+*)
+    echo "Command $SFL_CMD not found!"
+    exit 1
+    ;;
+esac
