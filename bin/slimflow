@@ -1,4 +1,6 @@
 #!/bin/bash
+set -e
+
 # default vars
 SFL_INSTPATH="$HOME/bin"
 SFL_REPONAME="git-slimflow"
