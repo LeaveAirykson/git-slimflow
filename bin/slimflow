@@ -60,7 +60,7 @@ update | install)
         chmod +x "$SFL_INSTPATH/$(basename "$cmd")"
     done
 
-    echo "Installed commands"
+    echo -e "${yellow}Installed commands${normal}"
 
     # determine if git completion exists
     # installed via zsh
@@ -76,13 +76,13 @@ update | install)
     # install bash completion
     if [ -d "/etc/bash_completion.d" ] && ! [[ $SFL_GITCOMPLPATH == 0 ]]; then
         sudo cp /tmp/$SFL_REPONAME/slimflow_completion /etc/bash_completion.d/slimflow_completion
-        echo "Installed bash completion (terminal restart required)"
+        echo -e "${yellow}Installed bash completion (terminal restart required)${normal}"
     fi
 
     # remove tmp repo
     rm -rf "/tmp/$SFL_REPONAME"
 
-    echo "Installation done"
+    echo -e "${yellow}Installation done${normal}"
 
     ;;
 
